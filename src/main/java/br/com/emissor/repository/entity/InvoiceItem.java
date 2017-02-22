@@ -1,4 +1,4 @@
-package br.com.bliss.entity;
+package br.com.emissor.repository.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -9,23 +9,29 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="ORDER_ITEM")
-public class OrderItem implements Serializable {
+@Table(name="invoice_item")
+public class InvoiceItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderItemPK id;
+	private InvoiceItemPK id;
 
 	private int quantity;
 
-	public OrderItem() {
+	public InvoiceItem() {
 	}
 
-	public OrderItemPK getId() {
+	public InvoiceItem(InvoiceItemPK id, int quantity) {
+		super();
+		this.id = id;
+		this.quantity = quantity;
+	}
+
+	public InvoiceItemPK getId() {
 		return this.id;
 	}
 
-	public void setId(OrderItemPK id) {
+	public void setId(InvoiceItemPK id) {
 		this.id = id;
 	}
 
@@ -36,6 +42,4 @@ public class OrderItem implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
-
 }

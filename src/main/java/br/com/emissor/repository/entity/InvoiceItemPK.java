@@ -1,4 +1,4 @@
-package br.com.bliss.entity;
+package br.com.emissor.repository.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -8,19 +8,26 @@ import javax.persistence.*;
  * 
  */
 @Embeddable
-public class OrderItemPK implements Serializable {
+public class InvoiceItemPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="ORDER_ID", insertable=false, updatable=false, nullable=false)
+	@Column(name="invoice_id", insertable=false, updatable=false, nullable=false)
 	private int orderId;
 
-	@Column(name="ITEM_ID", insertable=false, updatable=false, nullable=false)
+	@Column(name="item_id", insertable=false, updatable=false, nullable=false)
 	private int itemId;
 
-	public OrderItemPK() {
+	public InvoiceItemPK() {
 	}
 	
+
+	public InvoiceItemPK(int orderId, int itemId) {
+		super();
+		this.orderId = orderId;
+		this.itemId = itemId;
+	}
+
 
 	public int getOrderId() {
 		return orderId;
@@ -46,10 +53,10 @@ public class OrderItemPK implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof OrderItemPK)) {
+		if (!(other instanceof InvoiceItemPK)) {
 			return false;
 		}
-		OrderItemPK castOther = (OrderItemPK)other;
+		InvoiceItemPK castOther = (InvoiceItemPK)other;
 		return 
 			(this.orderId == castOther.orderId)
 			&& (this.itemId == castOther.itemId);

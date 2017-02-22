@@ -1,14 +1,16 @@
-package br.com.bliss.repository;
+package br.com.emissor.repository;
 
 import java.util.List;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import br.com.bliss.entity.Item;
+import br.com.emissor.repository.entity.Item;
 
-@RepositoryRestResource(collectionResourceRel="item",path="items")
+@Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Integer> {
 
 	List<Item> findAll();
+	Item findByName(@Param("name") String name);
 }

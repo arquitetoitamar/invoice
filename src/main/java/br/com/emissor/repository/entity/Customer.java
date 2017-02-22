@@ -1,7 +1,6 @@
-package br.com.bliss.entity;
+package br.com.emissor.repository.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the cliente database table.
@@ -43,10 +40,10 @@ public class Customer implements Serializable {
 	@Column
 	private String address;
 
-	@Column(name = "sexo")
+	@Column
 	private String gender;
 
-	@Column(nullable = false, length = 20)
+	@Column(length = 20)
 	private String document;
 
 	@Column
@@ -55,9 +52,8 @@ public class Customer implements Serializable {
 	@Column
 	private String note;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATE_DATE", nullable = false)
-	private Date createDate;
+	@Column
+	private String createDate;
 
 	public String getNickname() {
 		return nickname;
@@ -69,7 +65,7 @@ public class Customer implements Serializable {
 
 	// bi-directional many-to-one association to Pedido
 	@OneToMany(mappedBy = "customer")
-	private List<Orders> orders;
+	private List<Invoice> invoices;
 
 	public Customer() {
 	}
@@ -146,50 +142,31 @@ public class Customer implements Serializable {
 		this.note = note;
 	}
 
-	public Date getCreateDate() {
+
+
+	public String getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
 
-	public List<Orders> getOrders() {
-		return orders;
+
+	public List<Invoice> getInvoices() {
+		return invoices;
 	}
 
-	public void setOrders(List<Orders> orders) {
-		this.orders = orders;
-	}
-
-	public Orders addPedido(Orders order) {
-		getOrders().add(order);
-		order.setCustomer(this);
-		return order;
-	}
-
-	public Orders removePedido(Orders pedido) {
-		getOrders().remove(pedido);
-		pedido.setCustomer(null);
-		return pedido;
+	public void setInvoices(List<Invoice> invoices) {
+		this.invoices = invoices;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((cel == null) ? 0 : cel.hashCode());
-		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
 		result = prime * result + ((document == null) ? 0 : document.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
-		result = prime * result + ((note == null) ? 0 : note.hashCode());
-		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
-		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		return result;
 	}
 
@@ -202,64 +179,16 @@ public class Customer implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (cel == null) {
-			if (other.cel != null)
-				return false;
-		} else if (!cel.equals(other.cel))
-			return false;
-		if (createDate == null) {
-			if (other.createDate != null)
-				return false;
-		} else if (!createDate.equals(other.createDate))
-			return false;
 		if (document == null) {
 			if (other.document != null)
 				return false;
 		} else if (!document.equals(other.document))
 			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (gender == null) {
-			if (other.gender != null)
-				return false;
-		} else if (!gender.equals(other.gender))
-			return false;
 		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (nickname == null) {
-			if (other.nickname != null)
-				return false;
-		} else if (!nickname.equals(other.nickname))
-			return false;
-		if (note == null) {
-			if (other.note != null)
-				return false;
-		} else if (!note.equals(other.note))
-			return false;
-		if (orders == null) {
-			if (other.orders != null)
-				return false;
-		} else if (!orders.equals(other.orders))
-			return false;
-		if (phone == null) {
-			if (other.phone != null)
-				return false;
-		} else if (!phone.equals(other.phone))
 			return false;
 		return true;
 	}
+
+
 
 }

@@ -1,52 +1,58 @@
-package br.com.bliss.entity;
+package br.com.emissor.repository.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.*;
-
-import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the pedido database table.
  * 
  */
 @Entity
-@Table(name = "orders")
-public class Orders implements Serializable {
+@Table(name = "invoice")
+public class Invoice implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6223834324815421413L;
-	public Orders() {
+	public Invoice() {
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, table="orders")
+	@Column(name = "id", unique = true, table="invoice")
 	private int id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ORDER_DATE", nullable = false)
-	private Date orderDate;
+	@Column
+	private String orderDate;
 
-	@Column(name = "ORDER_STATUS", length = 45)
+	@Column(length = 45)
 	private String orderStatus;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PAYMENT_DATE")
-	private Date datePayment;
+	@Column
+	private String datePayment;
 
-	@Column(name = "PAYMENT_STATUS", length = 45)
+	@Column(length = 45)
 	private String paymentStatus;
 
-	@Column(name = "SHIPPING_DATE", length = 45)
+	@Column( length = 45)
 	private String shippingDate;
 
-	@Column(name = "SHIPPING_STATUS", length = 45)
+	@Column( length = 45)
 	private String shippingStatus;
 
-	@Column(nullable = false)
+	@Column
 	private String total;
 
 	@Column
@@ -55,13 +61,24 @@ public class Orders implements Serializable {
 	@Column
 	private String sinal;
 	
-	@Column(name = "COST")
+	@Column
 	private String cost;
+	@Column
+	private StatusProcess statusProcess;
 
+	@Column
+	private String totalTaxes;
+	
 	// bi-directional many-to-one association to Cliente
 	@ManyToOne
-	@JoinColumn(name = "FK_COD_CUSTOMER", nullable = false)
+	@JoinColumn(name = "fk_cod_customer", nullable = false)
 	private Customer customer;
+	
+	@ManyToOne
+	@JoinColumn(name = "fk_cod_company", nullable = false)
+	private Company company;
+
+	private transient List<InvoiceItem> items;
 
 	public int getId() {
 		return id;
@@ -79,13 +96,6 @@ public class Orders implements Serializable {
 		this.cost = cost;
 	}
 
-	public Date getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
-	}
 
 	public String getOrderStatus() {
 		return orderStatus;
@@ -95,11 +105,20 @@ public class Orders implements Serializable {
 		this.orderStatus = orderStatus;
 	}
 
-	public Date getDatePayment() {
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getDatePayment() {
 		return datePayment;
 	}
 
-	public void setDatePayment(Date datePayment) {
+	public void setDatePayment(String datePayment) {
 		this.datePayment = datePayment;
 	}
 
@@ -188,7 +207,7 @@ public class Orders implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Orders other = (Orders) obj;
+		Invoice other = (Invoice) obj;
 		if (cost == null) {
 			if (other.cost != null)
 				return false;
@@ -247,6 +266,38 @@ public class Orders implements Serializable {
 		} else if (!total.equals(other.total))
 			return false;
 		return true;
+	}
+
+	public String getTotalTaxes() {
+		return totalTaxes;
+	}
+
+	public void setTotalTaxes(String totalTaxes) {
+		this.totalTaxes = totalTaxes;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public List<InvoiceItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<InvoiceItem> items) {
+		this.items = items;
+	}
+
+	public StatusProcess getStatusProcess() {
+		return statusProcess;
+	}
+
+	public void setStatusProcess(StatusProcess statusProcess) {
+		this.statusProcess = statusProcess;
 	}
 
 }
