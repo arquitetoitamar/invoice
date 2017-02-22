@@ -13,4 +13,5 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 
 	Page<Customer> findAll(Pageable pageable);
 	Customer findByName(@Param("name")String name);
+	Customer findByInvoicesId(@Param("id") int id);
 }

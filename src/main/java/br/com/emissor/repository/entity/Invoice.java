@@ -3,16 +3,20 @@ package br.com.emissor.repository.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The persistent class for the pedido database table.
@@ -69,16 +73,21 @@ public class Invoice implements Serializable {
 	@Column
 	private String totalTaxes;
 	
-	// bi-directional many-to-one association to Cliente
-	@ManyToOne
+	@JsonBackReference
+	@JsonProperty
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "fk_cod_customer", nullable = false)
 	private Customer customer;
 	
-	@ManyToOne
+	@JsonBackReference
+	@JsonProperty
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "fk_cod_company", nullable = false)
 	private Company company;
-
-	private transient List<InvoiceItem> items;
+	
+	@Transient
+	@JsonManagedReference
+	private List<InvoiceItem> items;
 
 	public int getId() {
 		return id;
@@ -180,93 +189,6 @@ public class Invoice implements Serializable {
 		this.customer = customer;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cost == null) ? 0 : cost.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((datePayment == null) ? 0 : datePayment.hashCode());
-		result = prime * result + ((discount == null) ? 0 : discount.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
-		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
-		result = prime * result + ((paymentStatus == null) ? 0 : paymentStatus.hashCode());
-		result = prime * result + ((shippingDate == null) ? 0 : shippingDate.hashCode());
-		result = prime * result + ((shippingStatus == null) ? 0 : shippingStatus.hashCode());
-		result = prime * result + ((sinal == null) ? 0 : sinal.hashCode());
-		result = prime * result + ((total == null) ? 0 : total.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Invoice other = (Invoice) obj;
-		if (cost == null) {
-			if (other.cost != null)
-				return false;
-		} else if (!cost.equals(other.cost))
-			return false;
-		if (customer == null) {
-			if (other.customer != null)
-				return false;
-		} else if (!customer.equals(other.customer))
-			return false;
-		if (datePayment == null) {
-			if (other.datePayment != null)
-				return false;
-		} else if (!datePayment.equals(other.datePayment))
-			return false;
-		if (discount == null) {
-			if (other.discount != null)
-				return false;
-		} else if (!discount.equals(other.discount))
-			return false;
-		if (id != other.id)
-			return false;
-		if (orderDate == null) {
-			if (other.orderDate != null)
-				return false;
-		} else if (!orderDate.equals(other.orderDate))
-			return false;
-		if (orderStatus == null) {
-			if (other.orderStatus != null)
-				return false;
-		} else if (!orderStatus.equals(other.orderStatus))
-			return false;
-		if (paymentStatus == null) {
-			if (other.paymentStatus != null)
-				return false;
-		} else if (!paymentStatus.equals(other.paymentStatus))
-			return false;
-		if (shippingDate == null) {
-			if (other.shippingDate != null)
-				return false;
-		} else if (!shippingDate.equals(other.shippingDate))
-			return false;
-		if (shippingStatus == null) {
-			if (other.shippingStatus != null)
-				return false;
-		} else if (!shippingStatus.equals(other.shippingStatus))
-			return false;
-		if (sinal == null) {
-			if (other.sinal != null)
-				return false;
-		} else if (!sinal.equals(other.sinal))
-			return false;
-		if (total == null) {
-			if (other.total != null)
-				return false;
-		} else if (!total.equals(other.total))
-			return false;
-		return true;
-	}
 
 	public String getTotalTaxes() {
 		return totalTaxes;

@@ -1,5 +1,8 @@
 package br.com.emissor.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.emissor.controller.response.InvoiceIssuerResponse;
 import br.com.emissor.exceptions.BusinessException;
+import br.com.emissor.repository.InvoiceItemRepository;
 import br.com.emissor.repository.ItemRepository;
-import br.com.emissor.repository.entity.Invoice;
 import br.com.emissor.repository.entity.Item;
 import br.com.emissor.service.ItemService;
 
@@ -24,6 +27,8 @@ import br.com.emissor.service.ItemService;
 public class ItemRestController {
 	@Autowired
 	private ItemRepository itemRepository;
+	@Autowired
+	private InvoiceItemRepository invoiceItemRepository;
 	@Autowired
 	private ItemService itemService;
 
@@ -34,6 +39,15 @@ public class ItemRestController {
 			return new ResponseEntity<>( itemRepository.findByName(nome), HttpStatus.OK);
 		}
 		return new ResponseEntity<>( itemRepository.findAll(), HttpStatus.OK);
+	}
+	@RequestMapping(value="item/invoice/{id}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<?>  getByInvoice(
+		   @PathVariable (name="id",required=true) int id) throws BusinessException {
+		
+		List<Item> items = new ArrayList<>();
+		invoiceItemRepository.findByIdOrderId(id).forEach(invoiceItem -> 
+			items.add(itemRepository.findOne(invoiceItem.getId().getItemId())));
+		return new ResponseEntity<>( items, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="item/{id}", method=RequestMethod.GET, produces="application/json")

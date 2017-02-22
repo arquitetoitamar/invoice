@@ -69,6 +69,10 @@ public class Item implements Serializable {
 
 	@Column( length = 255)
 	private String thumbnail;
+/*	
+	// bi-directional many-to-one association to Pedido
+	@OneToMany(mappedBy = "item", fetch=FetchType.LAZY)
+	private List<InvoiceItem> invoiceItems;*/
 
 	public int getId() {
 		return id;
@@ -188,8 +192,12 @@ public class Item implements Serializable {
 		this.statusProcess = statusProcess;
 	}
 
-	
+/*	public List<InvoiceItem> getInvoiceItems() {
+		return invoiceItems;
+	}
 
-
+	public void setInvoiceItems(List<InvoiceItem> invoiceItems) {
+		this.invoiceItems = invoiceItems;
+	}*/
 	
 }

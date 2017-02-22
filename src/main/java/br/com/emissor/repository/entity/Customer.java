@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The persistent class for the cliente database table.
@@ -18,7 +21,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {
-	private static final long serialVersionUID = 1L;
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5660542216924165112L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,6 +62,10 @@ public class Customer implements Serializable {
 
 	@Column
 	private String createDate;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "customer", fetch=FetchType.LAZY)
+	private List<Invoice> invoices;
 
 	public String getNickname() {
 		return nickname;
@@ -63,9 +75,7 @@ public class Customer implements Serializable {
 		this.nickname = nickname;
 	}
 
-	// bi-directional many-to-one association to Pedido
-	@OneToMany(mappedBy = "customer")
-	private List<Invoice> invoices;
+
 
 	public Customer() {
 	}
@@ -160,35 +170,5 @@ public class Customer implements Serializable {
 	public void setInvoices(List<Invoice> invoices) {
 		this.invoices = invoices;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((document == null) ? 0 : document.hashCode());
-		result = prime * result + id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer other = (Customer) obj;
-		if (document == null) {
-			if (other.document != null)
-				return false;
-		} else if (!document.equals(other.document))
-			return false;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-
-
 
 }

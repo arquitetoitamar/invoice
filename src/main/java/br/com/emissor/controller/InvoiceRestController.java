@@ -1,5 +1,8 @@
 package br.com.emissor.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.emissor.controller.response.InvoiceIssuerResponse;
+import br.com.emissor.controller.response.InvoiceVO;
 import br.com.emissor.exceptions.BusinessException;
 import br.com.emissor.repository.InvoiceRepository;
 import br.com.emissor.repository.entity.Invoice;
@@ -25,17 +29,21 @@ public class InvoiceRestController {
 
 	@Autowired
 	private InvoiceRepository invoiceRepository;
-
 	@Autowired
 	private InvoiceService invoiceService;
+	@Autowired
+	private InvoiceConverter invoiceConverter;
 
 	@RequestMapping(value="invoice", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<?>  get(
+	public @ResponseBody List<InvoiceVO> get(
 			   @RequestParam (name="companyName", required=false) String name, @RequestParam (name="page", required=false)  Pageable pageable) throws BusinessException {
+		List<InvoiceVO> result = new ArrayList<>();
 		if (name != null) {
-			return new ResponseEntity<>( invoiceRepository.findByCompanyName(name, pageable), HttpStatus.OK);
+			invoiceRepository.findByCompanyName(name).forEach(invoice -> result.add(invoiceConverter.convertEntityToVO(invoice)) );
+		} else {
+			invoiceRepository.findAll().forEach(invoice -> result.add(invoiceConverter.convertEntityToVO(invoice)));
 		}
-		return new ResponseEntity<>( invoiceRepository.findAll(), HttpStatus.OK);
+		return result;
 	}
 	
 	@RequestMapping(value="invoice/{id}", method=RequestMethod.GET, produces="application/json")
@@ -53,7 +61,7 @@ public class InvoiceRestController {
 	@RequestMapping(value="invoice", method= RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED)
 	public @ResponseBody  ResponseEntity<InvoiceIssuerResponse>  post(@RequestBody Invoice invoice) throws BusinessException{
-		invoiceService.send(invoice);
+		invoiceService.send(invoice);//send to queue
 		return new ResponseEntity<InvoiceIssuerResponse>( new InvoiceIssuerResponse(2, "Enviado para fila"), HttpStatus.OK);
 	}
 

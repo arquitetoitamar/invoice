@@ -1,7 +1,10 @@
 package br.com.emissor.repository.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -11,10 +14,20 @@ import javax.persistence.*;
 @Entity
 @Table(name="invoice_item")
 public class InvoiceItem implements Serializable {
-	private static final long serialVersionUID = 1L;
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5220813482054361915L;
 
 	@EmbeddedId
 	private InvoiceItemPK id;
+	
+/*	@ManyToOne
+	@JsonBackReference
+	@JoinColumn(name = "item_id", nullable = false, insertable=false,updatable=false)
+	private Item item;*/
 
 	private int quantity;
 
@@ -42,4 +55,13 @@ public class InvoiceItem implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+/*
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}*/
+	
 }

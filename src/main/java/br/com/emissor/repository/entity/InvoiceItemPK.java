@@ -9,8 +9,12 @@ import javax.persistence.*;
  */
 @Embeddable
 public class InvoiceItemPK implements Serializable {
-	//default serial version id, required for serializable classes.
-	private static final long serialVersionUID = 1L;
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4675924769688117637L;
 
 	@Column(name="invoice_id", insertable=false, updatable=false, nullable=false)
 	private int orderId;
@@ -49,24 +53,4 @@ public class InvoiceItemPK implements Serializable {
 	}
 
 
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof InvoiceItemPK)) {
-			return false;
-		}
-		InvoiceItemPK castOther = (InvoiceItemPK)other;
-		return 
-			(this.orderId == castOther.orderId)
-			&& (this.itemId == castOther.itemId);
-	}
-
-	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.orderId;
-		hash = hash * prime + this.itemId;
-		return hash;
-	}
 }
