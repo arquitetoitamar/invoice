@@ -39,9 +39,9 @@ public class InvoiceRestController {
 			   @RequestParam (name="companyName", required=false) String name, @RequestParam (name="page", required=false)  Pageable pageable) throws BusinessException {
 		List<InvoiceVO> result = new ArrayList<>();
 		if (name != null) {
-			invoiceRepository.findByCompanyName(name).forEach(invoice -> result.add(invoiceConverter.convertEntityToVO(invoice)) );
+			invoiceRepository.findByCompanyNameContainingIgnoreCase(name).forEach(invoice -> result.add(invoiceConverter.convert(invoice)) );
 		} else {
-			invoiceRepository.findAll().forEach(invoice -> result.add(invoiceConverter.convertEntityToVO(invoice)));
+			invoiceRepository.findAll().forEach(invoice -> result.add(invoiceConverter.convert(invoice)));
 		}
 		return result;
 	}
@@ -58,10 +58,11 @@ public class InvoiceRestController {
 			throw new BusinessException("Não foram encontrado dadoos");
 		return new ResponseEntity<Invoice>( result, HttpStatus.OK);
 	}
-	@RequestMapping(value="invoice", method= RequestMethod.POST)
+	@RequestMapping(value="invoice", method= RequestMethod.POST, consumes="application/json;charset=UTF-8")
 	@Transactional(propagation=Propagation.REQUIRED)
-	public @ResponseBody  ResponseEntity<InvoiceIssuerResponse>  post(@RequestBody Invoice invoice) throws BusinessException{
-		invoiceService.send(invoice);//send to queue
+	public @ResponseBody  ResponseEntity<InvoiceIssuerResponse>  post(@RequestBody InvoiceVO invoiceVO) throws BusinessException{
+		
+		invoiceService.send(invoiceConverter.convert(invoiceVO));//send to queue
 		return new ResponseEntity<InvoiceIssuerResponse>( new InvoiceIssuerResponse(2, "Enviado para fila"), HttpStatus.OK);
 	}
 

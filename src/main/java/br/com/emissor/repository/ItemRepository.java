@@ -12,5 +12,5 @@ import br.com.emissor.repository.entity.Item;
 public interface ItemRepository extends PagingAndSortingRepository<Item, Integer> {
 
 	List<Item> findAll();
-	Item findByName(@Param("name") String name);
+	List<Item> findByNameContainingIgnoreCase(@Param("name") String name);
 }

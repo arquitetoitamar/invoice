@@ -67,6 +67,9 @@ public class Customer implements Serializable {
 	@OneToMany(mappedBy = "customer", fetch=FetchType.LAZY)
 	private List<Invoice> invoices;
 
+	public Customer() {
+	}
+
 	public String getNickname() {
 		return nickname;
 	}
@@ -77,8 +80,6 @@ public class Customer implements Serializable {
 
 
 
-	public Customer() {
-	}
 
 	public int getId() {
 		return this.id;

@@ -24,13 +24,6 @@ public class InvoiceItemPK implements Serializable {
 
 	public InvoiceItemPK() {
 	}
-	
-
-	public InvoiceItemPK(int orderId, int itemId) {
-		super();
-		this.orderId = orderId;
-		this.itemId = itemId;
-	}
 
 
 	public int getOrderId() {

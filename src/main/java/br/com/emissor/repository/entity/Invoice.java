@@ -30,8 +30,7 @@ public class Invoice implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6223834324815421413L;
-	public Invoice() {
-	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,6 +88,9 @@ public class Invoice implements Serializable {
 	@JsonManagedReference
 	private List<InvoiceItem> items;
 
+	
+	public Invoice() {
+	}
 	public int getId() {
 		return id;
 	}

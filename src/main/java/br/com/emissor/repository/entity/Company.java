@@ -67,7 +67,9 @@ public class Company implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "company")
 	private List<Invoice> invoices;
-
+	
+	public Company() {
+	}
 	public String getNickname() {
 		return nickname;
 	}
@@ -76,8 +78,7 @@ public class Company implements Serializable {
 		this.nickname = nickname;
 	}
 
-	public Company() {
-	}
+	
 
 	public int getId() {
 		return this.id;

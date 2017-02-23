@@ -36,7 +36,7 @@ public class ItemRestController {
 	public @ResponseBody ResponseEntity<?>  get(
 		   @RequestParam (name="nome",required=false) String nome) throws BusinessException {
 		if (nome != null) {
-			return new ResponseEntity<>( itemRepository.findByName(nome), HttpStatus.OK);
+			return new ResponseEntity<>( itemRepository.findByNameContainingIgnoreCase(nome), HttpStatus.OK);
 		}
 		return new ResponseEntity<>( itemRepository.findAll(), HttpStatus.OK);
 	}
@@ -63,7 +63,7 @@ public class ItemRestController {
 		return new ResponseEntity<Item>( result, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="item", method= RequestMethod.POST)
+	@RequestMapping(value="item", method= RequestMethod.POST, consumes="application/json;charset=UTF-8")
 	@Transactional(propagation=Propagation.REQUIRED)
 	public @ResponseBody  ResponseEntity<InvoiceIssuerResponse>  post(@RequestBody Item item) throws BusinessException{
 		
