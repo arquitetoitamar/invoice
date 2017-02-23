@@ -1,7 +1,13 @@
 package br.com.emissor.controller.response;
 
-public class InvoiceIssuerResponse {
+import java.io.Serializable;
 
+public class InvoiceIssuerResponse  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6398736960045889387L;
 	private int code;
 	private String message;
 	

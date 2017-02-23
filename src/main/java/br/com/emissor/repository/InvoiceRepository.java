@@ -12,5 +12,7 @@ import br.com.emissor.repository.entity.Invoice;
 public interface InvoiceRepository extends PagingAndSortingRepository<Invoice, Integer> {
 
 	List<Invoice> findByCompanyNameContainingIgnoreCase(@Param("name") String name);
+//	@Query(nativeQuery=true, value="")
+//	List<Invoice> findByName(@Param("name") String name);
 	List<Invoice> findAll();
 }

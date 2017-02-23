@@ -30,6 +30,8 @@ public class InvoiceItem implements Serializable {
 	private Item item;*/
 
 	private int quantity;
+	
+	
 
 	public InvoiceItem() {
 	}

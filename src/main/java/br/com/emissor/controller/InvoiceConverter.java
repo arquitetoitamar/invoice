@@ -6,9 +6,11 @@ import org.springframework.stereotype.Component;
 import br.com.emissor.controller.response.CompanyVO;
 import br.com.emissor.controller.response.CustomerVO;
 import br.com.emissor.controller.response.InvoiceVO;
+import br.com.emissor.controller.response.ItemVO;
 import br.com.emissor.repository.entity.Company;
 import br.com.emissor.repository.entity.Customer;
 import br.com.emissor.repository.entity.Invoice;
+import br.com.emissor.repository.entity.Item;
 
 @Component
 public class InvoiceConverter {
@@ -41,6 +43,20 @@ public class InvoiceConverter {
 		invoice.getCompany().setInvoices(null);
 		BeanUtils.copyProperties(invoice.getCompany(), company);
 		target.setCompany(company);
+
 		return target;
+	}
+	
+	public ItemVO convert(Item item) {
+		ItemVO target = new ItemVO();
+		BeanUtils.copyProperties(item, target);
+		return target;
+		
+	}
+	public Item convert(ItemVO item) {
+		Item target = new Item();
+		BeanUtils.copyProperties(item, target);
+		return target;
+		
 	}
 }

@@ -1,9 +1,15 @@
 package br.com.emissor.controller.response;
 
+import java.io.Serializable;
+
 import br.com.emissor.repository.entity.StatusProcess;
 
-public class ItemVO {
+public class ItemVO  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8590302512584182209L;
 	private int id;
 	private String dateCreate;
 	private String dateUpdate;

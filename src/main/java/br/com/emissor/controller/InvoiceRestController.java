@@ -36,7 +36,9 @@ public class InvoiceRestController {
 
 	@RequestMapping(value="invoice", method=RequestMethod.GET)
 	public @ResponseBody List<InvoiceVO> get(
-			   @RequestParam (name="companyName", required=false) String name, @RequestParam (name="page", required=false)  Pageable pageable) throws BusinessException {
+			   @RequestParam (name="companyName", required=false) String name, 
+			   @RequestParam (name="filteByCompanyOrItem", required=false) String filteByCompanyOrItem,
+			   @RequestParam (name="page", required=false)  Pageable pageable) throws BusinessException {
 		List<InvoiceVO> result = new ArrayList<>();
 		if (name != null) {
 			invoiceRepository.findByCompanyNameContainingIgnoreCase(name).forEach(invoice -> result.add(invoiceConverter.convert(invoice)) );
@@ -62,7 +64,7 @@ public class InvoiceRestController {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public @ResponseBody  ResponseEntity<InvoiceIssuerResponse>  post(@RequestBody InvoiceVO invoiceVO) throws BusinessException{
 		
-		invoiceService.send(invoiceConverter.convert(invoiceVO));//send to queue
+		invoiceService.send(invoiceVO);//send to queue
 		return new ResponseEntity<InvoiceIssuerResponse>( new InvoiceIssuerResponse(2, "Enviado para fila"), HttpStatus.OK);
 	}
 

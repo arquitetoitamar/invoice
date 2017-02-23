@@ -1,8 +1,13 @@
 package br.com.emissor.controller.response;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CustomerVO {
+public class CustomerVO implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8495014424038221529L;
 	private int id;
 	private String name;
 	private String email;

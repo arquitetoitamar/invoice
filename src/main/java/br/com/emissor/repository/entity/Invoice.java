@@ -1,7 +1,6 @@
 package br.com.emissor.repository.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -83,11 +80,6 @@ public class Invoice implements Serializable {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "fk_cod_company", nullable = false)
 	private Company company;
-	
-	@Transient
-	@JsonManagedReference
-	private List<InvoiceItem> items;
-
 	
 	public Invoice() {
 	}
@@ -207,15 +199,7 @@ public class Invoice implements Serializable {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-
-	public List<InvoiceItem> getItems() {
-		return items;
-	}
-
-	public void setItems(List<InvoiceItem> items) {
-		this.items = items;
-	}
-
+	
 	public StatusProcess getStatusProcess() {
 		return statusProcess;
 	}

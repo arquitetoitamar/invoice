@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
+import br.com.emissor.controller.response.InvoiceVO;
 import br.com.emissor.exceptions.BusinessException;
-import br.com.emissor.repository.entity.Invoice;
 import br.com.emissor.repository.entity.Item;
 import br.com.emissor.repository.entity.StatusProcess;
 
@@ -17,7 +17,7 @@ public class ConsumerService {
 	private ItemService itemService;
 	
 	@JmsListener(destination = "invoice.queue")
-	public void receiveQueue(Invoice invoice) {
+	public void receiveQueue(InvoiceVO invoice) {
 		System.out.println("invoice process");
 		try {
 			invoice.setStatusProcess(StatusProcess.PROCESSING);

@@ -1,13 +1,12 @@
 package br.com.emissor.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.emissor.controller.InvoiceConverter;
+import br.com.emissor.controller.response.InvoiceVO;
 import br.com.emissor.exceptions.BusinessException;
 import br.com.emissor.repository.CompanyRepository;
 import br.com.emissor.repository.CustomerRepository;
@@ -17,6 +16,7 @@ import br.com.emissor.repository.entity.Company;
 import br.com.emissor.repository.entity.Customer;
 import br.com.emissor.repository.entity.Invoice;
 import br.com.emissor.repository.entity.InvoiceItem;
+import br.com.emissor.repository.entity.InvoiceItemPK;
 import br.com.emissor.repository.entity.StatusProcess;
 
 @Service
@@ -31,21 +31,18 @@ public class InvoiceService {
 	private ProducerService producerService;
 	
 	@Autowired
+	private InvoiceConverter invoiceConverter;
+	
+	@Autowired
 	private InvoiceRepository invoiceRepository;
 
-	public void send(Invoice invoice){
+	public void send(InvoiceVO invoice){
 		invoice.setStatusProcess(StatusProcess.SEND_TO_QUEUE);
 		producerService.send(invoice);
 	}
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void process(Invoice invoice) throws BusinessException {
-		List<InvoiceItem> invoiceItems = new ArrayList<>();
-		
-		if(invoice.getItems() != null){
-			for(InvoiceItem invoiceItem : invoice.getItems()){
-				invoiceItems.add(invoiceItem);
-			}
-		}
+	public void process(InvoiceVO invoiceVO) throws BusinessException {
+		Invoice invoice = invoiceConverter.convert(invoiceVO);
 		if (invoice.getCompany() != null) {
 			Company company = companyRepository.findOne(invoice.getCompany().getId() );
 			if (company == null) {
@@ -60,14 +57,17 @@ public class InvoiceService {
 			} else 
 			   invoice.setCustomer(customer);
 		}
-		invoice.setItems(null);
 		Invoice result = invoiceRepository.save(invoice);
 		
 		if (result == null) 
 			throw new BusinessException("Ocorreu erro ao salvar nota");
 		//update invoice with items
-		invoiceItems.forEach(invoiceItem -> {
-			invoiceItem.getId().setOrderId(result.getId());
+		if (invoiceVO.getItems() == null) 
+			throw new BusinessException("Ocorreu erro ao salvar nota: Nao foram informados items");
+		invoiceVO.getItems().forEach(invoiceItemVO -> {
+			
+			InvoiceItem invoiceItem = new InvoiceItem(
+					new InvoiceItemPK(result.getId(), invoiceItemVO.getItemId()), invoiceItemVO.getQuantity());
 			invoiceItemRepository.save(invoiceItem);
 		});
 		invoice.setStatusProcess(StatusProcess.PROCESSED);

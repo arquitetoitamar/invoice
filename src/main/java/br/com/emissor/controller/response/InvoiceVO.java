@@ -1,10 +1,15 @@
 package br.com.emissor.controller.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.emissor.repository.entity.StatusProcess;
 
-public class InvoiceVO {
+public class InvoiceVO implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3100890436455561569L;
 	private int id;
 	private String orderDate;
 	private String orderStatus;
@@ -20,7 +25,8 @@ public class InvoiceVO {
 	private String totalTaxes;
 	private CustomerVO customer;
 	private CompanyVO company;
-	private List<ItemVO> items;
+	private List<ItemInvoiceVO> items;
+	
 	public int getId() {
 		return id;
 	}
@@ -111,10 +117,10 @@ public class InvoiceVO {
 	public void setCompany(CompanyVO company) {
 		this.company = company;
 	}
-	public List<ItemVO> getItems() {
+	public List<ItemInvoiceVO> getItems() {
 		return items;
 	}
-	public void setItems(List<ItemVO> items) {
+	public void setItems(List<ItemInvoiceVO> items) {
 		this.items = items;
 	}
 	
