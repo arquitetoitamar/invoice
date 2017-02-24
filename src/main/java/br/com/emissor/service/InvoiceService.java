@@ -67,7 +67,7 @@ public class InvoiceService {
 		invoiceVO.getItems().forEach(invoiceItemVO -> {
 			
 			InvoiceItem invoiceItem = new InvoiceItem(
-					new InvoiceItemPK(result.getId(), invoiceItemVO.getItemId()), invoiceItemVO.getQuantity());
+					new InvoiceItemPK(result.getId(), invoiceItemVO.getId()), invoiceItemVO.getQuantity());
 			invoiceItemRepository.save(invoiceItem);
 		});
 		invoice.setStatusProcess(StatusProcess.PROCESSED);

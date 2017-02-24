@@ -36,12 +36,11 @@ public class InvoiceRestController {
 
 	@RequestMapping(value="invoice", method=RequestMethod.GET)
 	public @ResponseBody List<InvoiceVO> get(
-			   @RequestParam (name="companyName", required=false) String name, 
-			   @RequestParam (name="filteByCompanyOrItem", required=false) String filteByCompanyOrItem,
+			   @RequestParam (name="name", required=false) String name,
 			   @RequestParam (name="page", required=false)  Pageable pageable) throws BusinessException {
 		List<InvoiceVO> result = new ArrayList<>();
 		if (name != null) {
-			invoiceRepository.findByCompanyNameContainingIgnoreCase(name).forEach(invoice -> result.add(invoiceConverter.convert(invoice)) );
+			invoiceRepository.findByName(name, name).forEach(invoice -> result.add(invoiceConverter.convert(invoice)) );
 		} else {
 			invoiceRepository.findAll().forEach(invoice -> result.add(invoiceConverter.convert(invoice)));
 		}
