@@ -7,7 +7,7 @@
 `mvn clean install` </br>
 `java -jar target/backoffice.jar`
 
-## Api's - Funcionalidade
+## Api's - Funcionalidades
 
 ### Criando Mercadoria
 curl POST http://localhost:9000/item </br>
