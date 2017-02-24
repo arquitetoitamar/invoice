@@ -11,15 +11,16 @@
 
 ### Criando Mercadoria
 curl POST http://localhost:9000/item </br>
+```
 {
  "name" :"teste",
  "price" :"100"
 }
-
+```
 </br>
 ### Criando Nota Fiscal
 curl POST http://localhost:9000/invoice </br>
-<code>
+```
 {
     "id": 1,
     "orderDate": "2017-02-23T03:19:58.015Z",
@@ -64,7 +65,7 @@ curl POST http://localhost:9000/invoice </br>
     },
     "items": null
   }
-  </code>
+```
 ## API URL's
 ### Nota Fiscal
   curl GET    http://localhost:9000/invoice </br>
