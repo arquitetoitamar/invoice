@@ -65,34 +65,34 @@ curl POST http://localhost:9000/invoice </br>
     "items": null
   }
   </code>
-  ## API URL's
-  ### Nota Fiscal
+## API URL's
+### Nota Fiscal
   curl GET    http://localhost:9000/invoice </br>
   curl GET    http://localhost:9000/invoice?name=<Emissor ou Mercadoria> </br>
   curl POST   http://localhost:9000/invoice </br>
   curl PUT    http://localhost:9000/invoice/{id} </br>
   curl DELETE http://localhost:9000/invoice/{id} </br>
-  ### Mercadoria
+### Mercadoria
   curl GET    http://localhost:9000/item </br>
   curl GET    http://localhost:9000/item?name=<nome do item> </br>
   curl GET    http://localhost:9000/item/invoice/{idInvoice} - Buscar items por Nota fiscal </br>
   curl POST   http://localhost:9000/item </br>
   curl PUT    http://localhost:9000/item/{id} </br>
   curl DELETE http://localhost:9000/item/{id} </br>
-  ### Empresa / Emissor
+### Empresa / Emissor
   curl GET    http://localhost:9000/company </br>
   curl GET    http://localhost:9000/company?name=<nome da empresa> </br>
   curl POST   http://localhost:9000/company </br>
   curl PUT    http://localhost:9000/company/{id} </br>
   curl DELETE http://localhost:9000/company/{id} </br>
-  ### Customer
+### Customer
   curl GET    http://localhost:9000/customer </br>
   curl GET    http://localhost:9000/customer?name=<nome do cliente> </br>
   curl POST   http://localhost:9000/customer </br>
   curl PUT    http://localhost:9000/customer/{id} </br>
   curl DELETE http://localhost:9000/customer/{id} </br>
   
-  ## Configuração
+## Configuração
   Arquivo: application.properties </br>
   Porta: </br>
   server.port=9000 </br>
@@ -103,5 +103,5 @@ curl POST http://localhost:9000/invoice </br>
   #spring.datasource.password=pass </br>
   #spring.datasource.driver-class-name=com.mysql.jdbc.Driver </br>
 
-  # Front-end
+# Front-end
   https://github.com/imktec/invoice-webapp/
